@@ -61,7 +61,14 @@ public class DarkModeActivationPreferenceController extends BasePreferenceContro
         final int autoMode = mUiModeManager.getNightMode();
         String buttonText;
 
-        if (autoMode == UiModeManager.MODE_NIGHT_AUTO) {
+        if (autoMode == UiModeManager.MODE_NIGHT_CUSTOM) {
+            buttonText = mContext.getString(isActivated
+                            ? R.string.dark_ui_activation_off_custom
+                            : R.string.dark_ui_activation_on_custom,
+                    mTimeFormatter.getFormattedTimeString(isActivated
+                            ? mUiModeManager.getNightModeCustomStartTime()
+                            : mUiModeManager.getNightModeCustomEndTime()));
+        } else if (autoMode == UiModeManager.MODE_NIGHT_AUTO) {
             buttonText = mContext.getString(active
                     ? R.string.dark_ui_activation_off_auto
                     : R.string.dark_ui_activation_on_auto);

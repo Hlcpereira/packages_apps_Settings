@@ -28,6 +28,7 @@ public class DarkModePreference extends MasterSwitchPreference {
 
     private UiModeManager mUiModeManager;
     private DarkModeObserver mDarkModeObserver;
+    private DarkModeTimeFormatter mTimeFormatter;
     private PowerManager mPowerManager;
     private Runnable mCallback;
 
@@ -36,6 +37,7 @@ public class DarkModePreference extends MasterSwitchPreference {
         mDarkModeObserver = new DarkModeObserver(context);
         mUiModeManager = context.getSystemService(UiModeManager.class);
         mPowerManager = context.getSystemService(PowerManager.class);
+        mTimeFormatter = new DarkModeTimeFormatter(context);
         mCallback = () -> {
             final boolean batterySaver = mPowerManager.isPowerSaveMode();
             final boolean active = (getContext().getResources().getConfiguration().uiMode
@@ -65,22 +67,7 @@ public class DarkModePreference extends MasterSwitchPreference {
             setSummary(getContext().getString(stringId));
             return;
         }
-        final boolean auto = mUiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_AUTO;
 
-        String detail;
-        if (active) {
-            detail = getContext().getString(auto
-                    ? R.string.dark_ui_summary_on_auto_mode_auto
-                    : R.string.dark_ui_summary_on_auto_mode_never);
-        } else {
-            detail = getContext().getString(auto
-                    ? R.string.dark_ui_summary_off_auto_mode_auto
-                    : R.string.dark_ui_summary_off_auto_mode_never);
-        }
-        String summary = getContext().getString(active
-                ? R.string.dark_ui_summary_on
-                : R.string.dark_ui_summary_off, detail);
-
-        setSummary(summary);
+        setSummary(mTimeFormatter.getAutoModeTimeSummary(getContext(), mColorDisplayManager, active));
     }
 }

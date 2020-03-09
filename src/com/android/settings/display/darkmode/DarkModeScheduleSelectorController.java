@@ -57,10 +57,14 @@ public class DarkModeScheduleSelectorController extends BasePreferenceController
     public final void updateState(Preference preference) {
         final boolean batterySaver = mPowerManager.isPowerSaveMode();
         mPreference.setEnabled(!batterySaver);
-        mCurrentMode =
-                mUiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_AUTO
+        mCurrentMode = mUiModeManager.getNightMode()
+        if (mCurrentMode == UiModeManager.MODE_NIGHT_AUTO) {
                 ? mContext.getString(R.string.dark_ui_auto_mode_auto)
                 : mContext.getString(R.string.dark_ui_auto_mode_never);
+        } else if (mCurrentMode == UiModeManager.MODE_NIGHT_CUSTOM) {
+                ? mContext.getString(R.string.dark_ui_auto_mode_custom)
+                : mContext.getString(R.string.dark_ui_auto_mode_never);
+        }
         mPreference.setValue(mCurrentMode);
     }
     @Override
@@ -80,6 +84,9 @@ public class DarkModeScheduleSelectorController extends BasePreferenceController
         } else if (mCurrentMode ==
                 mContext.getString(R.string.dark_ui_auto_mode_auto)) {
             mUiModeManager.setNightMode(UiModeManager.MODE_NIGHT_AUTO);
+        } else if (mCurrentMode ==
+                mContext.getString(R.string.dark_ui_auto_mode_custom)) {
+            mUiModeManager.setNightMode(UiModeManager.MODE_NIGHT_CUSTOM);
         }
         return true;
     }

@@ -30,6 +30,16 @@
         settings:controller="com.android.settings.display.darkmode.DarkModeScheduleSelectorController"
         settings:keywords="@string/keywords_dark_ui_mode"/>
 
+    <Preference
+        android:key="dark_ui_start_time"
+        android:title="@string/dark_ui_start_time_title"
+        settings:controller="com.android.settings.display.darkmode.DarkModeCustomStartTimePreferenceController" />
+
+    <Preference
+        android:key="dark_ui_end_time"
+        android:title="@string/dark_ui_end_time_title"
+        settings:controller="com.android.settings.display.darkmode.DarkModeCustomEndTimePreferenceController" />
+
     <com.android.settingslib.widget.LayoutPreference
         android:key="dark_ui_activated"
         android:title="@string/dark_ui_title"
